@@ -1,6 +1,6 @@
 {
     "name": "mmm-dynamicsnow",
-    "version": "1.0.0",
+    "version": "3.0.1",
     "description": "A MagicMirror module that adds dynamic falling snow effects based on weather conditions",
     "main": "MMM-DynamicSnow.js",
     "keywords": [

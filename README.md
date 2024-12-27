@@ -118,6 +118,38 @@ Ensure you have a weather module configured and working. The default weather mod
 | `characters` | Flake styles | ['*', '+'] | Array of characters |
 | `sparkleEnabled` | Sparkle effect | false | Visual enhancement |
 
+## Visual Examples
+
+The module supports different styles of snowflakes, from simple ASCII characters to more decorative snowflake symbols. Below are examples of both styles running in Stockholm at 0.7°C:
+
+### Basic Style (ASCII Characters)
+![Simple snow effect](screenshots/light.png)
+*Using simple ASCII characters (`*` and `+`) - ideal for lower-powered devices*
+
+Configuration used:
+```javascript
+{
+    characters: ['*', '+'],
+    flakeCount: 25,
+    sparkleEnabled: false
+}
+```
+
+### Decorative Style (Snowflake Characters)
+![Decorative snow effect](screenshots/rich.png)
+*Using snowflake characters (❄) - more visually appealing but slightly more resource-intensive*
+
+Configuration used:
+```javascript
+{
+    characters: ['❄', '❆'],
+    flakeCount: 25,
+    sparkleEnabled: true
+}
+```
+
+Both examples show the module's weather-reactive features, automatically activating as the temperature approaches freezing (0.7°C) with a forecast showing decreasing temperatures through the evening.
+
 ## Performance Notes
 
 ### Low-Power Devices (e.g., Raspberry Pi)

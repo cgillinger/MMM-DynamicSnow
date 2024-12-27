@@ -4,13 +4,19 @@
  * By Christian Gillinger
  * MIT Licensed.
  * 
- * v2.1.0
+ * v3.0.1 (2024-12-27)
  * 
  * Changelog:
- * v2.1.0 (2024-12-27)
- * - Linked snow effect activation to weather conditions.
- * - Removed default snow animation on start.
- * - Added dynamic handling for weather notifications.
+ * v3.0.1 (2024-12-27)
+ * - Fixed snow animation implementation
+ * - Restored original working animation code
+ * - Added proper snowKeywords.json loading
+ * 
+ * v3.0.0 (2024-12-27)
+ * - Renamed to MMM-DynamicSnow
+ * - Added weather-reactive snow effect activation
+ * - Integrated weather module notifications
+ * - Added dynamic handling for weather notifications
  * 
  * v2.0.1 (2024-12-16)
  * - Removed performance presets system
@@ -18,9 +24,7 @@
  * - Updated validation logic
  * 
  * v2.0.0 (2024-12-16)
- * - Moved all configuration to config.js
- * - Added comprehensive validation
- * - Improved error handling
+ * - Configuration improvements
  * 
  * v1.0.0 (2024-12-01)
  * - Initial release
@@ -35,16 +39,19 @@ Module.register("MMM-DynamicSnow", {
         minSize: 0.8,         // Default minimum size
         maxSize: 1.5,         // Default maximum size
         characters: ['*', '+'], // Default characters (light mode style)
-        sparkleEnabled: false // Sparkle effect disabled by default
+        sparkleEnabled: false  // Sparkle effect disabled by default
     },
+
+    // Store for loaded keywords with defaults
+    snowKeywords: ["snow", "sleet", "blizzard", "flurries"],
 
     start: function () {
-        this.snowEffectActive = false; // Initially inactive
+        this.snowEffectActive = false;
         this.validateConfig();
-        Log.info("MMM-DynamicSnow: Module initialized and waiting for weather notifications.");
+        Log.info("MMM-DynamicSnow: Module initialized and requesting keywords.");
+        this.sendSocketNotification("REQUEST_KEYWORDS");
     },
 
-    // Rest of the code remains exactly the same, just updated log messages
     validateConfig: function () {
         if (typeof this.config.flakeCount !== "number" || this.config.flakeCount < 1) {
             Log.warn("MMM-DynamicSnow: Invalid flakeCount. Using default: 25");
@@ -67,14 +74,19 @@ Module.register("MMM-DynamicSnow", {
         }
     },
 
-    // The rest of your original code remains exactly the same, just with updated log messages
+    socketNotificationReceived: function(notification, payload) {
+        if (notification === "SNOW_KEYWORDS_LOADED") {
+            this.snowKeywords = payload;
+            Log.info("MMM-DynamicSnow: Updated snow keywords:", this.snowKeywords);
+        }
+    },
+
     notificationReceived: function (notification, payload) {
         if (notification === "CURRENTWEATHER_TYPE" && payload && payload.type) {
             const weatherType = payload.type.toLowerCase();
             Log.info(`MMM-DynamicSnow: Received weather type: ${weatherType}`);
 
-            const snowKeywords = ['snow', 'sleet', 'blizzard', 'flurries'];
-            const isSnowy = snowKeywords.includes(weatherType);
+            const isSnowy = this.snowKeywords.includes(weatherType);
 
             if (isSnowy && !this.snowEffectActive) {
                 this.activateSnowEffect();
