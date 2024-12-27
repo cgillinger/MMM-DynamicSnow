@@ -1,0 +1,26 @@
+{
+    "name": "mmm-dynamicsnow",
+    "version": "1.0.0",
+    "description": "A MagicMirror module that adds dynamic falling snow effects based on weather conditions",
+    "main": "MMM-DynamicSnow.js",
+    "keywords": [
+        "magicmirror",
+        "snow",
+        "effect",
+        "christmas",
+        "winter",
+        "dynamic",
+        "weather"
+    ],
+    "author": "Christian Gillinger",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/cgillinger/MMM-DynamicSnow.git"
+    },
+    "bugs": {
+        "url": "https://github.com/cgillinger/MMM-DynamicSnow/issues"
+    },
+    "homepage": "https://github.com/cgillinger/MMM-DynamicSnow#readme",
+    "dependencies": {}
+}
